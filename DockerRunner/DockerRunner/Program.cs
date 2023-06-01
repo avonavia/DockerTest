@@ -15,76 +15,85 @@ namespace DockerRunner
             DockerClient client = new DockerClientConfiguration(
             new Uri("npipe://./pipe/docker_engine")).CreateClient();
 
-            var containers = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
-
-            var found = false;
-            var postfound = false;
-
-            foreach (var c in containers)
+            try
             {
-                if (c.Image == "dockermvctest:latest")
+                var containers = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
+
+                var found = false;
+                var postfound = false;
+
+                foreach (var c in containers)
                 {
-                    found = true;
-                    cID = c.ID;
-                }
-            }
-            if (!found)
-            {
-                Console.WriteLine("Container not found");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-
-            foreach (var c in containers)
-            {
-                if (c.Image == "postgres:latest")
-                {
-                    postfound = true;
-                    cpID = c.ID;
-                }
-            }
-            if (!postfound)
-            {
-                Console.WriteLine("Container not found");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-
-            Console.WriteLine("Container found!");
-            Console.WriteLine("Communicating to a container with ID: " + cID);
-            await client.Containers.StartContainerAsync(cID, new ContainerStartParameters { });
-            Console.WriteLine("Success");
-
-            Console.WriteLine("Communicating to a container with ID: " + cpID);
-            await client.Containers.StartContainerAsync(cpID, new ContainerStartParameters { });
-            Console.WriteLine("Success");
-
-            var containersUpd = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
-
-            found = false;
-
-            System.Threading.Thread.Sleep(2000);
-
-            foreach (var c in containersUpd)
-            {
-                if (c.ID == cID && c.State == "running")
-                {
-                    found = true;
-                    foreach (var p in c.Ports)
+                    if (c.Image == "dockermvctest:latest")
                     {
-                        if (p.PublicPort != 0)
+                        found = true;
+                        cID = c.ID;
+                    }
+                }
+                if (!found)
+                {
+                    Console.WriteLine("Container not found");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
+                foreach (var c in containers)
+                {
+                    if (c.Image == "postgres:latest")
+                    {
+                        postfound = true;
+                        cpID = c.ID;
+                    }
+                }
+                if (!postfound)
+                {
+                    Console.WriteLine("Container not found");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
+                Console.WriteLine("Container found!");
+                Console.WriteLine("Communicating to a container with ID: " + cID);
+                await client.Containers.StartContainerAsync(cID, new ContainerStartParameters { });
+                Console.WriteLine("Success");
+
+                Console.WriteLine("Communicating to a container with ID: " + cpID);
+                await client.Containers.StartContainerAsync(cpID, new ContainerStartParameters { });
+                Console.WriteLine("Success");
+
+                var containersUpd = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
+
+                found = false;
+
+                System.Threading.Thread.Sleep(2000);
+
+                foreach (var c in containersUpd)
+                {
+                    if (c.ID == cID && c.State == "running")
+                    {
+                        found = true;
+                        foreach (var p in c.Ports)
                         {
-                            var link = "http://localhost:" + p.PublicPort.ToString();
-                            Console.WriteLine("Opening MVC App using address: " + link);
-                            Process.Start(link);
-                            Console.ReadKey();
+                            if (p.PublicPort != 0)
+                            {
+                                var link = "http://localhost:" + p.PublicPort.ToString();
+                                Console.WriteLine("Opening MVC App using address: " + link);
+                                Process.Start(link);
+                                Console.ReadKey();
+                            }
                         }
                     }
                 }
+                if (!found)
+                {
+                    Console.WriteLine("Error");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
             }
-            if (!found)
+            catch
             {
-                Console.WriteLine("Error");
+                Console.WriteLine("Docker is not on");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
