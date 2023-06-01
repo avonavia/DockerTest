@@ -1,0 +1,21 @@
+﻿@model IEnumerable<EFSalon.Client>
+    @{ ViewBag.Title = "Клиенты"; }
+    <a asp-action="Create">Добавить клиента</a>
+    <p></p>
+    <a asp-action="CreateM">Добавить мастера</a>
+    <p></p>
+    <a asp-action="IndexM">Сменить таблицу</a>
+    <p></p>
+    <h1>Клиенты</h1>
+    <table class="table">
+        <tr><td>Имя</td><td>Фамилия</td><td>Пол</td></tr>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>@item.name</td>
+    <td>@item.surname</td>
+    <td>@item.gender</td>
+</tr>
+}
+    </table>
+
