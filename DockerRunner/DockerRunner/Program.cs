@@ -9,6 +9,7 @@ namespace DockerRunner
     class Program
     {
         public static string cID { get; set; }
+        public static string cpID { get; set; }
         static async Task Main()
         {
             DockerClient client = new DockerClientConfiguration(
@@ -17,6 +18,7 @@ namespace DockerRunner
             var containers = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
 
             var found = false;
+            var postfound = false;
 
             foreach (var c in containers)
             {
@@ -33,9 +35,28 @@ namespace DockerRunner
                 Environment.Exit(0);
             }
 
+            foreach (var c in containers)
+            {
+                if (c.Image == "postgres:latest")
+                {
+                    postfound = true;
+                    cpID = c.ID;
+                }
+            }
+            if (!postfound)
+            {
+                Console.WriteLine("Container not found");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
             Console.WriteLine("Container found!");
             Console.WriteLine("Communicating to a container with ID: " + cID);
             await client.Containers.StartContainerAsync(cID, new ContainerStartParameters { });
+            Console.WriteLine("Success");
+
+            Console.WriteLine("Communicating to a container with ID: " + cpID);
+            await client.Containers.StartContainerAsync(cpID, new ContainerStartParameters { });
             Console.WriteLine("Success");
 
             var containersUpd = await client.Containers.ListContainersAsync(new ContainersListParameters { All = true });
