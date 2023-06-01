@@ -1,0 +1,11 @@
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\bin\Release\net5.0\EFSalon.deps.json
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\bin\Release\net5.0\EFSalon.dll
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\bin\Release\net5.0\ref\EFSalon.dll
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\bin\Release\net5.0\EFSalon.pdb
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.AssemblyInfoInputs.cache
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.AssemblyInfo.cs
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.csproj.CoreCompileInputs.cache
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.dll
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\ref\EFSalon.dll
+C:\Users\nyanp\source\repos\DockerMVCTest\EFSalon\obj\Release\net5.0\EFSalon.pdb
